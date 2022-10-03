@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./components/head.ejs") %>
+  <body>
+    <%- include("./components/nav.ejs") %>
+    <div class="content-admin-blogs">
+      <div class="blogs">
+        <div class="new-blog">
+          <span>Add new blog</span><a href="/admin/add">New blog</a>
+        </div>
+        <h1>Blogs</h1>
+        <ul>
+          <% if(blogs){ %> <% blogs.map(blogs=>{ %>
+          <li>
+            <h3><%=blogs.title%></h3>
+            <a class="admin-delete-btn" id="deleteBtn" data-doc="<%=blogs._id%>"
+              >Delete</a
+            >
+          </li>
+          <% }) %> <% } %>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      const deleteBtn = document.querySelectorAll("a#deleteBtn");
+
+      deleteBtn.forEach((dltBtn) => {
+        dltBtn.addEventListener("click", (e) => {
+          console.log(dltBtn);
+          const endpoint = `admin/delete/${dltBtn.dataset.doc}`;
+
+          fetch(endpoint, {
+            method: "DELETE",
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              window.location.href = data.link;
+            })
+            .catch((err) => console.log(err));
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<nav>
+  <a href="/"><h1>Node Blog</h1></a>
+  <div>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <% if (user) { %>
+    <a href="/logout">Logout</a>
+    <% }else{ %>
+    <a href="/login">Login</a>
+    <% } %> %>
+  </div>
+</nav>

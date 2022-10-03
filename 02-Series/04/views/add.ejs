@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./components/head.ejs") %>
+  <body>
+    <%- include("./components/nav.ejs") %>
+
+    <div class="content-admin-add">
+      <form action="/admin/add" method="post">
+        <div>
+          <label for="title">Title</label>
+          <input name="title" id="title" type="text" />
+        </div>
+        <div>
+          <label for="short">Short</label>
+          <input name="short" id="short" type="text" />
+        </div>
+        <div>
+          <label for="long">long</label>
+          <textarea name="long" id="long"></textarea>
+        </div>
+        <input type="submit" value="Add blog" />
+      </form>
+    </div>
+  </body>
+</html>

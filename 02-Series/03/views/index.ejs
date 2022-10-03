@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./components/head.ejs") %>
+  <body>
+    <%- include("./components/nav.ejs") %>
+    <div class="content-index">
+      <div class="blogs">
+        <h1>Blogs</h1>
+        <ul>
+          <% if(data){ %> <% data.map(data=>{ %>
+          <li>
+            <a href="/blog/<%=data._id%>"><%=data.title%></a>
+            <span><%=data.short%></span>
+            <p><%=data.long%></p>
+          </li>
+          <% }) %> <% } %>
+        </ul>
+      </div>
+      <div class="sponsor">
+        <h3>Sponsor</h3>
+        <div>
+          <img src="https://picsum.photos/200" />
+          <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
