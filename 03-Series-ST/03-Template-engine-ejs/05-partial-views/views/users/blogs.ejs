@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../partials/head.ejs") %>
+  <body>
+    <%- include("../partials/nav.ejs") %>
+
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="list-group">
+            <% categories.forEach(category => { %>
+            <a href="" class="list-group-item list-group-item-ation"><%= category %> </a>
+            <% }) %>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <h1 class="h3 mb-3"><%=title %></h1>
+          <% blogs.forEach(blog => { %> <% if (blog.onayli) { %>
+          <div class="card mb-3">
+            <div class="row">
+              <div class="col-md-4">
+                <img src="./images/<%= blog.imgSrc %>" class="img-fluid" alt="" />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%= blog.title %></h5>
+                  <div class="card-text"><%= blog.text %></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %> <% }) %> <% if (blogs.filter(blog=>blog.onayli).length > 3) { %> <%-
+          include("../partials/pagination.ejs") %> <% } %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
