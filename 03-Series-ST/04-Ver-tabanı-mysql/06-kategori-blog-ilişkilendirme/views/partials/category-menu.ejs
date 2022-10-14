@@ -1,0 +1,10 @@
+<div class="list-group">
+   <a href="/blogs" class="list-group-item list-group-item-ation">Tüm kategoriler</a>
+   <% categories.forEach(category => { %>
+   <a
+      href="/blogs/category/<%= category.categoryid %> "
+      class="list-group-item list-group-item-ation"
+      ><%= category.name %></a
+   >
+   <% }) %>
+</div>
