@@ -1,6 +1,5 @@
 const express = require("express");
 const db = require("../data/db");
-
 const router = express.Router();
 
 router.get("/blog/delete/:blogid", async (req, res) => {
@@ -14,19 +13,17 @@ router.get("/blog/delete/:blogid", async (req, res) => {
       console.log(error);
    }
 });
-
 router.post("/blog/delete/:blogid", async (req, res) => {
    const blogid = req.body.blogid;
 
    try {
       const blog = await db.execute("delete from blog where blogid=?", [blogid]);
 
-      res.redirect("/admin/blogs");
+      res.redirect("/admin/blogs?action=delete");
    } catch (error) {
       console.log(error);
    }
 });
-
 router.get("/blogs/create", async (req, res) => {
    try {
       const category = await db.execute("select * from category");
@@ -49,12 +46,11 @@ router.post("/blogs/create", async (req, res) => {
          "INSERT INTO blog(baslik,aciklama,resim,anasayfa,onay,categoryid) VALUES(?,?,?,?,?,?)",
          [baslik, aciklama, resim, anasayfa, onay, kategori]
       );
-      res.redirect("/");
+      res.redirect("/admin/blogs?action=create");
    } catch (error) {
       console.log(error);
    }
 });
-
 router.get("/blogs/:blogid", async (req, res) => {
    try {
       const blog = await db.execute("select * from blog where blogid=?", [
@@ -73,7 +69,6 @@ router.get("/blogs/:blogid", async (req, res) => {
       console.log(error);
    }
 });
-
 router.post("/blogs/:blogid", async (req, res) => {
    const baslik = req.body.baslik,
       aciklama = req.body.aciklama,
@@ -88,16 +83,19 @@ router.post("/blogs/:blogid", async (req, res) => {
          "UPDATE blog SET baslik=?, aciklama=?, resim=?, anasayfa=?, onay=?, categoryid=? WHERE blogid=?",
          [baslik, aciklama, resim, anasayfa, onay, kategoriid, blogid]
       );
-      res.redirect("/admin/blogs");
+      res.redirect("/admin/blogs?action=edit");
    } catch (error) {
       console.log(error);
    }
 });
-
 router.get("/blogs", async (req, res) => {
    try {
       const blogs = await db.execute("select blogid,baslik,aciklama,resim from blog");
-      res.render("admin/blog-list", { title: "Blog list", blogs: blogs[0] });
+      res.render("admin/blog-list", {
+         title: "Blog list",
+         blogs: blogs[0],
+         action: req.query.action,
+      });
    } catch (error) {
       console.log(error);
    }
