@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%- include("../partials/head.ejs") %>
+   <body>
+      <%- include("../partials/nav.ejs") %>
+
+      <div class="container mt-3">
+         <div class="row">
+            <div class="col-md-12">
+               <table class="table table-hover table-striped table-bordered">
+                  <thead>
+                     <tr class="row">
+                        <th class="col-1">İd</th>
+                        <th class="col-9">Name</th>
+                        <th class="col-2 text-center">Button</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% categories.forEach(category => { %>
+                     <tr class="row">
+                        <th class="col-1"><%=category.categoryid %></th>
+                        <td class="col-9"><%=category.name %></td>
+                        <td
+                           class="col-2 d-flex justify-content-center align-items-center gap-2 px-2">
+                           <a
+                              class="btn btn-sm btn-primary"
+                              href="/admin/categories/edit/<%=category.categoryid%>"
+                              >Edit</a
+                           >
+                           <a
+                              class="btn btn-sm btn-danger"
+                              href="/admin/categories/delete/<%=category.categoryid%>"
+                              >Delete</a
+                           >
+                        </td>
+                     </tr>
+                     <% }) %>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
