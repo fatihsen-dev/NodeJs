@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%- include("../partials/head.ejs") %>
+   <body>
+      <%- include("../partials/nav.ejs") %>
+
+      <div class="container mt-3">
+         <div class="row">
+            <div class="col-md-12">
+               <% if (action != "undefined" && action=="edit") { %>
+               <div class="alert alert-success row">Blog Güncellendi.</div>
+               <% } %> <% if (action != "undefined" && action=="create") { %>
+               <div class="alert alert-primary row">Blog Oluşturuldu..</div>
+               <% } %> <% if (action != "undefined" && action=="delete") { %>
+               <div class="alert alert-danger row">Blog Silindi.</div>
+               <% } %>
+               <table class="table table-hover table-striped table-bordered">
+                  <thead>
+                     <tr class="row">
+                        <th class="col-1">İd</th>
+                        <th class="col-1">Resim</th>
+                        <th class="col-4">Başlık</th>
+                        <th class="col-4">Açıklama</th>
+                        <th class="col-2">Resim</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% blogs.forEach(blog => { %>
+                     <tr class="row">
+                        <th class="col-1"><%=blog.blogid %></th>
+                        <td class="col-1">
+                           <img
+                              class="admin-list-img"
+                              src="../images/<%=blog.resim %>"
+                              alt="" />
+                        </td>
+                        <td class="col-4"><%=blog.baslik %></td>
+                        <td class="col-4"><%-blog.altbaslik %></td>
+                        <td
+                           class="col-2 d-flex justify-content-center align-items-center gap-2 px-2">
+                           <a
+                              class="btn btn-sm btn-primary"
+                              href="/admin/blogs/<%=blog.blogid%>"
+                              >Edit</a
+                           >
+                           <a
+                              class="btn btn-sm btn-danger"
+                              href="/admin/blog/delete/<%=blog.blogid%>"
+                              >Delete</a
+                           >
+                        </td>
+                     </tr>
+                     <% }) %>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
