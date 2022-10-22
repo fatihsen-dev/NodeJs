@@ -96,7 +96,6 @@ router.get("/blogs/create", async (req, res) => {
       console.log(error);
    }
 });
-
 router.post("/blogs/create", imageUpload.upload.single("file"), async (req, res) => {
    const baslik = req.body.baslik,
       aciklama = req.body.aciklama,
@@ -134,14 +133,20 @@ router.get("/blogs/:blogid", async (req, res) => {
       console.log(error);
    }
 });
-router.post("/blogs/:blogid", async (req, res) => {
-   const baslik = req.body.baslik,
-      aciklama = req.body.aciklama,
-      resim = req.body.resim,
-      anasayfa = req.body.anasayfa == "on" ? 1 : 0,
-      onay = req.body.onay == "on" ? 1 : 0,
-      kategoriid = req.body.kategori,
-      blogid = req.body.blogid;
+router.post("/blogs/:blogid", imageUpload.upload.single("file"), async (req, res) => {
+   const baslik = req.body.baslik;
+   const aciklama = req.body.aciklama;
+   let resim = req.body.resim;
+
+   if (req.file) {
+      resim = req.file.filename;
+   }
+   console.log(resim);
+
+   const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
+   const onay = req.body.onay == "on" ? 1 : 0;
+   const kategoriid = req.body.kategori;
+   const blogid = req.body.blogid;
 
    try {
       await db.execute(

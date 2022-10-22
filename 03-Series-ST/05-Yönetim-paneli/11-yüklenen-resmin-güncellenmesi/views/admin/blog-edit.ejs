@@ -6,8 +6,9 @@
       <div class="container mt-3">
          <div class="row">
             <div class="col-md-12 mt-3">
-               <form method="post">
+               <form method="post" enctype="multipart/form-data">
                   <input type="hidden" name="blogid" value="<%=blog.blogid %>" />
+                  <input type="hidden" name="resim" value="<%=blog.resim %>" />
                   <div class="row mb-3">
                      <label for="baslik" class="col-sm-2 col-form-label">Başlık</label>
                      <div class="col-sm-8">
@@ -36,12 +37,8 @@
                   <div class="row mb-3">
                      <label for="resim" class="col-sm-2 col-form-label">Resim</label>
                      <div class="col-sm-8">
-                        <input
-                           type="text"
-                           class="form-control"
-                           name="resim"
-                           id="resim"
-                           value="<%= blog.resim %>" />
+                        <img src="../../images/<%=blog.resim %>" width="120" />
+                        <input class="form-control" type="file" name="file" id="file" />
                      </div>
                   </div>
                   <div class="row mb-3">
