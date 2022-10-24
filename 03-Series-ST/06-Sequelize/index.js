@@ -29,7 +29,7 @@ Blog.belongsTo(Category);
 
 // Uygulanması - sync
 (async () => {
-   await sequelize.sync({ force: true });
+   await sequelize.sync({ alter: true });
    await dummyData();
 })();
 

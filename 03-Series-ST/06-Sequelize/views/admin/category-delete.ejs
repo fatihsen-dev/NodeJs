@@ -11,7 +11,7 @@
                      <b><%=category.name %> </b><br />
                      isimli kategori kaydınızı silmek istiyor musunuz ?
                      <form method="post">
-                        <input type="hidden" name="blogid" value="<%=category.categoryid %>">
+                        <input type="hidden" name="categoryid" value="<%=category.id %>">
                         <button type="submit" class="btn btn-danger">Evet</button>
                         <a href="/admin/categories" class="btn btn-primary">Vazgeç</a>
                      </form>

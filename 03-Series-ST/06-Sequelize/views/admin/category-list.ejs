@@ -18,18 +18,18 @@
                   <tbody>
                      <% categories.forEach(category => { %>
                      <tr class="row">
-                        <th class="col-1"><%=category.dataValues.categoryid %></th>
+                        <th class="col-1"><%=category.dataValues.id %></th>
                         <td class="col-9"><%=category.dataValues.name %></td>
                         <td
                            class="col-2 d-flex justify-content-center align-items-center gap-2 px-2">
                            <a
                               class="btn btn-sm btn-primary"
-                              href="/admin/categories/edit/<%=category.dataValues.categoryid%>"
+                              href="/admin/categories/edit/<%=category.dataValues.id%>"
                               >Edit</a
                            >
                            <a
                               class="btn btn-sm btn-danger"
-                              href="/admin/categories/delete/<%=category.dataValues.categoryid%>"
+                              href="/admin/categories/delete/<%=category.dataValues.id%>"
                               >Delete</a
                            >
                         </td>

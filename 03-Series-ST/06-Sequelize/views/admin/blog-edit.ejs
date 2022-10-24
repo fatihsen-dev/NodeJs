@@ -10,7 +10,7 @@
                   <input
                      type="hidden"
                      name="blogid"
-                     value="<%=blog.dataValues.blogid %>" />
+                     value="<%=blog.dataValues.id %>" />
                   <input type="hidden" name="resim" value="<%=blog.dataValues.resim %>" />
                   <div class="row mb-3">
                      <label for="baslik" class="col-sm-2 col-form-label">Başlık</label>
@@ -66,14 +66,14 @@
                         <select name="kategori" id="kategori" class="form-select">
                            <option value="-1" selected>Seçiniz</option>
                            <% category.forEach(cty => { %>
-                           <option value="<%=cty.dataValues.categoryid%>">
+                           <option value="<%=cty.dataValues.id%>">
                               <%=cty.dataValues.name %>
                            </option>
                            <% }) %>
                         </select>
                         <script>
                            document.querySelector("#kategori").value =
-                              "<%=blog.dataValues.categoryid%>";
+                              "<%=blog.dataValues.categoryId%>";
                         </script>
                      </div>
                   </div>

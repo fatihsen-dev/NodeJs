@@ -27,7 +27,7 @@
                   <tbody>
                      <% blogs.forEach(blog => { %>
                      <tr class="row">
-                        <th class="col-1"><%=blog.dataValues.blogid %></th>
+                        <th class="col-1"><%=blog.dataValues.id %></th>
                         <td class="col-1">
                            <img
                               class="admin-list-img"
@@ -40,12 +40,12 @@
                            class="col-2 d-flex justify-content-center align-items-center gap-2 px-2">
                            <a
                               class="btn btn-sm btn-primary"
-                              href="/admin/blogs/<%=blog.dataValues.blogid%>"
+                              href="/admin/blogs/<%=blog.dataValues.id%>"
                               >Edit</a
                            >
                            <a
                               class="btn btn-sm btn-danger"
-                              href="/admin/blog/delete/<%=blog.dataValues.blogid%>"
+                              href="/admin/blog/delete/<%=blog.dataValues.id%>"
                               >Delete</a
                            >
                         </td>
