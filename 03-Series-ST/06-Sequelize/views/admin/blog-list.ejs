@@ -35,7 +35,11 @@
                               alt="" />
                         </td>
                         <td class="col-4"><%=blog.dataValues.baslik %></td>
-                        <td class="col-4"><%-blog.category?.name %></td>
+                        <td class="col-4">
+                           <% blog.categories.forEach(category => { %>
+                           <p><%= category.name %></p>
+                           <% }) %>
+                        </td>
                         <td
                            class="col-2 d-flex justify-content-center align-items-center gap-2 px-2">
                            <a

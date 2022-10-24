@@ -1,21 +1,28 @@
+const { where } = require("sequelize");
 const Blog = require("../models/blog");
 const Category = require("../models/category");
 
 exports.blogs_by_category = async (req, res) => {
+   const id = req.params.categoryid;
    try {
-      const id = req.params.categoryid;
       const blogs = await Blog.findAll({
          where: {
-            id: id,
+            onay: true,
+         },
+         include: {
+            model: Category,
+            where: {
+               id: id,
+            },
          },
       });
-      const category = await Category.findAll();
+      const category = await Category.findAll({ raw: true });
 
       res.render("users/blogs", {
          title: "Tüm Kurslar",
          blogs: blogs,
          categories: category,
-         selectedcategory: id,
+         selectedCategory: id,
       });
    } catch (error) {
       console.log(error);
@@ -53,7 +60,7 @@ exports.blog_lists = async (req, res) => {
          title: "Tüm Kurslar",
          blogs: blogs,
          categories: category,
-         selectedcategory: null,
+         selectedCategory: null,
       });
    } catch (error) {
       console.log(err);
@@ -75,7 +82,7 @@ exports.index = async (req, res) => {
          title: "Popüler Kurslar",
          blogs: blogs,
          categories: category,
-         selectedcategory: null,
+         selectedCategory: null,
       });
    } catch (err) {
       console.log(err);

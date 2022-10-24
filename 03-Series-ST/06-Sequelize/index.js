@@ -16,23 +16,11 @@ const Category = require("./models/category");
 const sequelize = require("./data/db");
 const dummyData = require("./data/dummy-data");
 
-// one to many
-// Category.hasMany(Blog, {
-//    foreignKey: {
-//       name: "categoryId",
-//       allowNull: true,
-//       // defaultValue: 1,
-//    },
-//    onDelete: "SET NULL",
-//    onUpdate: "SET NULL",
-// });
-// Blog.belongsTo(Category);
-
 Blog.belongsToMany(Category, { through: "blogCategories" });
 Category.belongsToMany(Blog, { through: "blogCategories" });
 
 const sync = async () => {
-   await sequelize.sync({ alter: true });
+   await sequelize.sync({ force: true });
    await dummyData();
 };
 sync();
