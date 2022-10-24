@@ -21,9 +21,11 @@ const dummyData = require("./data/dummy-data");
 Category.hasMany(Blog, {
    foreignKey: {
       name: "categoryId",
-      allowNull: false,
+      allowNull: true,
       // defaultValue: 1,
    },
+   onDelete: "SET NULL",
+   onUpdate: "SET NULL",
 });
 Blog.belongsTo(Category);
 
