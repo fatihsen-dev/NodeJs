@@ -37,10 +37,14 @@ exports.category_edit_get = async (req, res) => {
    try {
       if (categoryId) {
          const category = await Category.findByPk(categoryId);
+         const blogs = await category.getBlogs();
+         const countBlogs = await category.countBlogs();
 
          res.render("admin/category-edit", {
             title: category.dataValues.name,
             category: category,
+            blogs: blogs,
+            countBlogs: countBlogs,
          });
       }
    } catch (error) {
