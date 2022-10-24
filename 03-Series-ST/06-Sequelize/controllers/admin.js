@@ -216,6 +216,10 @@ exports.blog_index = async (req, res) => {
    try {
       const blogs = await Blog.findAll({
          attributes: ["id", "altbaslik", "baslik", "aciklama", "resim"],
+         include: {
+            model: Category,
+            attributes: ["name"],
+         },
       });
 
       res.render("admin/blog-list", {

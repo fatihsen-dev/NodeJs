@@ -20,8 +20,8 @@
                         <th class="col-1">İd</th>
                         <th class="col-1">Resim</th>
                         <th class="col-4">Başlık</th>
-                        <th class="col-4">Açıklama</th>
-                        <th class="col-2">Resim</th>
+                        <th class="col-4">Kategori</th>
+                        <th class="col-2">İşlem</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -35,7 +35,7 @@
                               alt="" />
                         </td>
                         <td class="col-4"><%=blog.dataValues.baslik %></td>
-                        <td class="col-4"><%-blog.dataValues.altbaslik %></td>
+                        <td class="col-4"><%-blog.category?.name %></td>
                         <td
                            class="col-2 d-flex justify-content-center align-items-center gap-2 px-2">
                            <a
