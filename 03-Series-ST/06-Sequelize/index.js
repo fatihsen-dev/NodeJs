@@ -16,24 +16,26 @@ const Category = require("./models/category");
 const sequelize = require("./data/db");
 const dummyData = require("./data/dummy-data");
 
-// ilişkiler
 // one to many
-Category.hasMany(Blog, {
-   foreignKey: {
-      name: "categoryId",
-      allowNull: true,
-      // defaultValue: 1,
-   },
-   onDelete: "SET NULL",
-   onUpdate: "SET NULL",
-});
-Blog.belongsTo(Category);
+// Category.hasMany(Blog, {
+//    foreignKey: {
+//       name: "categoryId",
+//       allowNull: true,
+//       // defaultValue: 1,
+//    },
+//    onDelete: "SET NULL",
+//    onUpdate: "SET NULL",
+// });
+// Blog.belongsTo(Category);
 
-// Uygulanması - sync
-(async () => {
+Blog.belongsToMany(Category, { through: "blogCategories" });
+Category.belongsToMany(Blog, { through: "blogCategories" });
+
+const sync = async () => {
    await sequelize.sync({ alter: true });
    await dummyData();
-})();
+};
+sync();
 
 app.listen(3000, () => {
    console.log("Listining on port http://localhost:3000/");

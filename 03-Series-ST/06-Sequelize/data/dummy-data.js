@@ -2,7 +2,7 @@ const Category = require("../models/category");
 const Blog = require("../models/blog");
 
 const populate = async () => {
-   const count = Category.count();
+   const count = await Category.count();
 
    if (count == 0) {
       await Category.bulkCreate([
@@ -20,7 +20,6 @@ const populate = async () => {
          resim: "1.jpeg",
          anasayfa: true,
          onay: true,
-         categoryId: 1,
       });
       await Blog.create({
          baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
@@ -31,7 +30,6 @@ const populate = async () => {
          resim: "2.jpeg",
          anasayfa: true,
          onay: true,
-         categoryId: 2,
       });
       await Blog.create({
          baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
@@ -42,7 +40,6 @@ const populate = async () => {
          resim: "2.jpeg",
          anasayfa: true,
          onay: true,
-         categoryId: 1,
       });
       await Blog.create({
          baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
@@ -53,7 +50,6 @@ const populate = async () => {
          resim: "2.jpeg",
          anasayfa: true,
          onay: true,
-         categoryId: 3,
       });
    }
 };
