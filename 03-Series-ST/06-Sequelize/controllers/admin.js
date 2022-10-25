@@ -161,13 +161,16 @@ exports.blog_create_post = async (req, res) => {
 exports.blog_edit_get = async (req, res) => {
    const id = req.params.blogid;
    try {
-      const blog = await Blog.findByPk(id);
+      const blog = await Blog.findOne({
+         where: { id: id },
+         include: { model: Category, attributes: ["id"] },
+      });
       const categories = await Category.findAll();
       if (blog) {
          return res.render("admin/blog-edit", {
             title: "Blog edit",
             blog: blog,
-            category: categories,
+            categories: categories,
          });
       }
       res.redirect("admin/blogs");
