@@ -56,11 +56,20 @@
                            href="/admin/blogs/<%=blog.dataValues.id%>"
                            >Edit</a
                         >
-                        <a
-                           class="btn btn-sm btn-danger"
-                           href="/admin/blog/delete/<%=blog.dataValues.id%>"
-                           >Delete</a
-                        >
+
+                        <form action="/admin/categories/remove" method="post">
+                           <input
+                              type="hidden"
+                              name="blogid"
+                              value="<%= blog.dataValues.id %>" />
+                           <input
+                              type="hidden"
+                              name="categoryid"
+                              value="<%= category.dataValues.id %>" />
+                           <button type="submit" class="btn btn-sm btn-danger">
+                              Kategoriden Çıkar
+                           </button>
+                        </form>
                      </td>
                   </tr>
                   <% }) %>

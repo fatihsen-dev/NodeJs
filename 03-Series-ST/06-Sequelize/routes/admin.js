@@ -26,5 +26,6 @@ router.post(
    adminController.blog_edit_post
 );
 router.get("/blogs", adminController.blog_index);
+router.post("/categories/remove", adminController.get_category_remove);
 
 module.exports = router;

@@ -1,38 +1,15 @@
-const { where } = require("sequelize");
+const { where, Model } = require("sequelize");
 const Blog = require("../models/blog");
 const Category = require("../models/category");
 
-exports.blogs_by_category = async (req, res) => {
-   const id = req.params.categoryid;
-   try {
-      const blogs = await Blog.findAll({
-         where: {
-            onay: true,
-         },
-         include: {
-            model: Category,
-            where: {
-               id: id,
-            },
-         },
-      });
-      const category = await Category.findAll({ raw: true });
-
-      res.render("users/blogs", {
-         title: "Tüm Kurslar",
-         blogs: blogs,
-         categories: category,
-         selectedCategory: id,
-      });
-   } catch (error) {
-      console.log(error);
-   }
-};
-
 exports.blogs_details = async (req, res) => {
-   const id = req.params.blogid;
+   const slug = req.params.slug;
    try {
-      const blogs = await Blog.findByPk(id);
+      const blogs = await Blog.findOne({
+         where: {
+            url: slug,
+         },
+      });
 
       if (blogs) {
          res.render("users/details", {
@@ -48,19 +25,35 @@ exports.blogs_details = async (req, res) => {
 };
 
 exports.blog_lists = async (req, res) => {
+   const size = 3;
+   const { page = 0 } = req.query;
+   const slug = req.params.slug;
    try {
-      const blogs = await Blog.findAll({
+      const { rows, count } = await Blog.findAndCountAll({
          where: {
             onay: true,
          },
+         include: slug
+            ? {
+                 model: Category,
+                 where: {
+                    url: slug,
+                 },
+              }
+            : null,
+         limit: size,
+         offset: page * size,
       });
       const category = await Category.findAll();
 
       res.render("users/blogs", {
          title: "Tüm Kurslar",
-         blogs: blogs,
+         blogs: rows,
+         curentPage: page,
+         totalItems: count,
+         totalPages: Math.ceil(count / size),
          categories: category,
-         selectedCategory: null,
+         selectedCategory: slug,
       });
    } catch (error) {
       console.log(err);

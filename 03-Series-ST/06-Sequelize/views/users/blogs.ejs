@@ -14,9 +14,8 @@
                <h1 class="h3 mb-3"><%=title %></h1>
                <% if (blogs.length == 0) { %> <%- include("../partials/no-products") %> <%
                } %> <% blogs.forEach(blog => { %> <%-
-               include("../partials/blog.card.ejs",blog.dataValues) %> <% }) %> <%
-               if(blogs.filter(blog=>blog.onay).length > 3) { %>
-               <%-include("../partials/pagination.ejs") %> <% } %>
+               include("../partials/blog.card.ejs",blog.dataValues) %> <% }) %>
+               <%-include("../partials/pagination.ejs") %>
             </div>
          </div>
       </div>

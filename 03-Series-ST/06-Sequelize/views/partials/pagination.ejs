@@ -1,19 +1,23 @@
+<% if (totalPages > 1) { %>
 <nav>
-  <ul class="pagination justify-content-center">
-    <li class="page-item">
-      <a href="" class="page-link">Geri</a>
-    </li>
-    <li class="page-item">
-      <a href="" class="page-link active">1</a>
-    </li>
-    <li class="page-item">
-      <a href="" class="page-link">2</a>
-    </li>
-    <li class="page-item">
-      <a href="" class="page-link">3</a>
-    </li>
-    <li class="page-item">
-      <a href="" class="page-link">İleri</a>
-    </li>
-  </ul>
+   <ul class="pagination justify-content-start">
+      <li class="page-item">
+         <a href="?page=0" class="page-link">İlk</a>
+      </li>
+
+      <% for( let index = 0; index < totalPages; index++ ) { %>
+      <li class="page-item">
+         <a
+            href="?page=<%=index%>"
+            class="page-link <%= (index == curentPage) && 'active' %>"
+            ><%=index+1%></a
+         >
+      </li>
+      <% } %>
+
+      <li class="page-item">
+         <a href="?page=<%= totalPages-1 %> " class="page-link">Son</a>
+      </li>
+   </ul>
 </nav>
+<% } %>
