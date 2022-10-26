@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%- include("../partials/head.ejs") %>
+   <body>
+      <%- include("../partials/nav.ejs") %>
+      <div class="container mt-3">
+         <div class="row">
+            <div class="col-12 mt-3">
+               <form method="post">
+                  <div class="row">
+                     <label for="baslik" class="col-1 col-form-label">Başlık</label>
+                     <input
+                        type="hidden"
+                        name="categoryid"
+                        value="<%=category.dataValues.id  %>" />
+                     <div class="col-10 col">
+                        <input
+                           type="text"
+                           name="name"
+                           class="form-control"
+                           id="baslik"
+                           value="<%=category.dataValues.name  %>" />
+                     </div>
+                     <button type="submit" class="col-1 btn btn-primary">Ekle</button>
+                  </div>
+               </form>
+            </div>
+            <% if (blogs.length > 0) { %>
+            <p>Blog Sayısı: <%= countBlogs %></p>
+            <table class="table table-hover table-striped table-bordered mt-3">
+               <thead>
+                  <tr class="row">
+                     <th class="col-1">İd</th>
+                     <th class="col-1">Resim</th>
+                     <th class="col-4">Başlık</th>
+                     <th class="col-4">Açıklama</th>
+                     <th class="col-2">Resim</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <% blogs.forEach(blog => { %>
+                  <tr class="row">
+                     <th class="col-1"><%=blog.dataValues.id %></th>
+                     <td class="col-1">
+                        <img
+                           class="admin-list-img"
+                           src="../../../images/<%=blog.dataValues.resim %>"
+                           alt="" />
+                     </td>
+                     <td class="col-4"><%=blog.dataValues.baslik %></td>
+                     <td class="col-4"><%-blog.dataValues.altbaslik %></td>
+                     <td
+                        class="col-2 d-flex justify-content-center align-items-center gap-2 px-2">
+                        <a
+                           class="btn btn-sm btn-primary"
+                           href="/admin/blogs/<%=blog.dataValues.id%>"
+                           >Edit</a
+                        >
+
+                        <form action="/admin/categories/remove" method="post">
+                           <input
+                              type="hidden"
+                              name="blogid"
+                              value="<%= blog.dataValues.id %>" />
+                           <input
+                              type="hidden"
+                              name="categoryid"
+                              value="<%= category.dataValues.id %>" />
+                           <button type="submit" class="btn btn-sm btn-danger">
+                              Kategoriden Çıkar
+                           </button>
+                        </form>
+                     </td>
+                  </tr>
+                  <% }) %>
+               </tbody>
+            </table>
+            <% } %>
+         </div>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,23 @@
+<% if (totalPages > 1) { %>
+<nav>
+   <ul class="pagination justify-content-start">
+      <li class="page-item">
+         <a href="?page=0" class="page-link">İlk</a>
+      </li>
+
+      <% for( let index = 0; index < totalPages; index++ ) { %>
+      <li class="page-item">
+         <a
+            href="?page=<%=index%>"
+            class="page-link <%= (index == curentPage) && 'active' %>"
+            ><%=index+1%></a
+         >
+      </li>
+      <% } %>
+
+      <li class="page-item">
+         <a href="?page=<%= totalPages-1 %> " class="page-link">Son</a>
+      </li>
+   </ul>
+</nav>
+<% } %>
