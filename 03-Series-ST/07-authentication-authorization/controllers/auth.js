@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const emailService = require("../helpers/send-mail");
+const config = require("../config");
 
 exports.get_register = async (req, res) => {
    try {
@@ -14,15 +16,34 @@ exports.post_register = async (req, res) => {
    const password = req.body.password;
 
    const hashedPassword = await bcrypt.hash(password, 10);
-
-   console.log(name, email, password);
    try {
-      await User.create({
+      const user = await User.findOne({ where: { email: email } });
+
+      if (user) {
+         req.session.message = {
+            text: "Girdiğiniz email adresiyle daha önce kayıt olunmuş.",
+            class: "warning",
+         };
+         return res.redirect("login");
+      }
+
+      const newUser = await User.create({
          fullname: name,
          email: email,
          password: hashedPassword,
       });
 
+      emailService.sendMail({
+         from: config.email.from,
+         to: newUser.email,
+         subject: "Hesabınız oluşturuldu.",
+         text: "Hesabınız başarılı şekilde oluşturuldu.",
+      });
+
+      req.session.message = {
+         text: "Hesabınıza giriş yapabilirsiniz.",
+         class: "success",
+      };
       return res.redirect("login");
    } catch (error) {
       console.log(error);
@@ -30,8 +51,10 @@ exports.post_register = async (req, res) => {
 };
 
 exports.get_login = async (req, res) => {
+   const message = req.session.message;
+   delete req.session.message;
    try {
-      return res.render("auth/login", { title: "Login" });
+      return res.render("auth/login", { title: "Login", message: message });
    } catch (error) {
       console.log(error);
    }
@@ -50,18 +73,32 @@ exports.post_login = async (req, res) => {
       console.log(user);
 
       if (!user) {
-         return res.render("auth/login", { title: "Login", message: "Email hatalı" });
+         return res.render("auth/login", {
+            title: "Login",
+            message: {
+               text: "Email hatalı",
+               class: "danger",
+            },
+         });
       }
 
       const match = await bcrypt.compare(password, user.password);
 
       if (match) {
-         req.session.isAuth = 1;
+         req.session.isAuth = true;
+         req.session.fullname = user.fullname;
 
-         return res.redirect("/");
+         const url = req.query.returnurl || "/";
+         return res.redirect(url);
       }
 
-      return res.render("auth/login", { title: "Login", message: "Parola hatalı" });
+      return res.render("auth/login", {
+         title: "Login",
+         message: {
+            text: "Parola hatalı",
+            class: "danger",
+         },
+      });
    } catch (error) {
       console.log(error);
    }

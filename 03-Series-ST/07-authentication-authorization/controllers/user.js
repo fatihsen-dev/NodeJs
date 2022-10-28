@@ -76,7 +76,6 @@ exports.index = async (req, res) => {
          blogs: blogs,
          categories: category,
          selectedCategory: null,
-         isAuth: req.session.isAuth,
       });
    } catch (err) {
       console.log(err);
