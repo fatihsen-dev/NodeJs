@@ -7,7 +7,7 @@ module.exports = config = {
    },
    email: {
       username: "example@outlook.com",
-      password: "example_Password_123",
+      password: "102030++",
       from: "example@outlook.com",
    },
 };

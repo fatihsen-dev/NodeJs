@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const emailService = require("../helpers/send-mail");
 const config = require("../config");
+const cyrypto = require("crypto");
 
 exports.get_register = async (req, res) => {
    try {
@@ -108,6 +109,62 @@ exports.get_logout = async (req, res) => {
    try {
       await req.session.destroy();
       return res.redirect("/account/login");
+   } catch (error) {
+      console.log(error);
+   }
+};
+
+exports.get_reset = async (req, res) => {
+   const message = req.session.message;
+   try {
+      return res.render("auth/reset-password", {
+         title: "Reset Password",
+         message: message,
+      });
+   } catch (error) {
+      console.log(error);
+   }
+};
+exports.post_reset = async (req, res) => {
+   const email = req.body.email;
+
+   try {
+      const token = cyrypto.randomBytes(32).toString("hex");
+      const user = await User.findOne({
+         where: {
+            email: email,
+         },
+      });
+
+      if (!user) {
+         req.session.message = {
+            text: "Email bulunamadı",
+            class: "danger",
+         };
+         res.redirect("reset-password");
+      }
+
+      user.resetToken = token;
+      user.resetTokenExpiration = Date.now() + 1000 * 60 * 60;
+      user.save();
+
+      emailService.sendMail({
+         from: config.email.from,
+         to: user.email,
+         subject: "Reset Password",
+         html: `
+            <p>Parolanızı güncellemek için aşağıdaki linke tıklayınız.</p>
+            <p>
+               <a href="http://localhost:3000/account/reset-password/${token}">Parola Sıfırla</a>
+            </p>
+         `,
+      });
+
+      req.session.message = {
+         text: "Parolanızı sıfırlamak için eposta adresinizi kontrol ediniz",
+         class: "success",
+      };
+      res.redirect("login");
    } catch (error) {
       console.log(error);
    }
