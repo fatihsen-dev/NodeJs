@@ -155,7 +155,7 @@ exports.post_reset = async (req, res) => {
          html: `
             <p>Parolanızı güncellemek için aşağıdaki linke tıklayınız.</p>
             <p>
-               <a href="http://localhost:3000/account/reset-password/${token}">Parola Sıfırla</a>
+               <a href="http://localhost:3000/account/new-password/${token}">Parola Sıfırla</a>
             </p>
          `,
       });
@@ -169,3 +169,17 @@ exports.post_reset = async (req, res) => {
       console.log(error);
    }
 };
+
+exports.get_newpassword = async (req, res) => {
+   const token = req.params.token;
+   const message = req.session.message;
+   try {
+      return res.render("auth/new-password", {
+         title: "New Password",
+         message: message,
+      });
+   } catch (error) {
+      console.log(error);
+   }
+};
+exports.post_newpassword = async (req, res) => {};
