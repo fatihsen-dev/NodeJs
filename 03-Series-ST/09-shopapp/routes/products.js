@@ -1,42 +1,47 @@
 import express from "express";
-import Joi from "joi";
+import Product, { productValidate } from "../models/product.js";
 
 const router = express.Router();
 
-// products object
-const products = [
-   { id: 1, name: "İphone 11", price: 10000 },
-   { id: 2, name: "İphone 12", price: 20000 },
-   { id: 3, name: "İphone 13", price: 30000 },
-   { id: 4, name: "İphone 14", price: 40000 },
-];
-
 // get all
-router.get("/", (req, res) => {
-   res.send(products);
+router.get("/", async (req, res) => {
+   try {
+      // const products = await Product.find();
+      // const products = await Product.find({ isActive: true });
+      // const products = await Product.find({ isActive: true }).select({ name: 1, price: 1 });
+      const products = await Product.find({ isActive: true })
+         .limit(3)
+         .select({ name: 1, price: 1 });
+
+      res.send(products);
+   } catch (error) {
+      console.log(error);
+   }
 });
 
 // new
-router.post("/", (req, res) => {
-   const schema = new Joi.object({
-      name: Joi.string().min(3).max(30).required(),
-      price: Joi.number().required(),
-   });
-   const result = schema.validate(req.body);
-   if (result.error) {
-      return res.status(400).send({ message: result.error.details[0].message });
+router.post("/", async (req, res) => {
+   const { error } = productValidate(req.body);
+
+   if (error) {
+      return res.status(400).send({ message: error.details[0].message });
    }
 
-   products.push({
-      id: products.length + 1,
+   const product = new Product({
       name: req.body.name,
       price: req.body.price,
+      description: req.body.description,
+      imageUrl: req.body.imageUrl,
+      isActive: req.body.isActive,
    });
-   return res.send({
-      id: products.length,
-      name: req.body.name,
-      price: req.body.price,
-   });
+
+   try {
+      product.save();
+      return res.send(product);
+   } catch (error) {
+      console.log(error);
+      return res.send({ message: "Ekleme Başarısız" });
+   }
 });
 
 // update
@@ -48,14 +53,10 @@ router.put("/:id", async (req, res) => {
       return res.status(404).send({ message: "Ürün bulunamadı" });
    }
 
-   const schema = new Joi.object({
-      name: Joi.string().min(3).max(30).required(),
-      price: Joi.number().required(),
-   });
-   const result = schema.validate(req.body);
+   const { error } = productValidate(req.body);
 
-   if (result.error) {
-      return res.status(400).send({ message: result.error.details[0].message });
+   if (error) {
+      return res.status(400).send({ message: error.details[0].message });
    }
    product[0].name = req.body.name;
    product[0].price = req.body.price;
@@ -64,19 +65,13 @@ router.put("/:id", async (req, res) => {
 });
 
 // get one
-router.get("/:id", (req, res) => {
-   const id = req.params.id;
-
-   if (isNaN(id) == true) {
-      return res.status(404).send({ message: "Geçersiz parametre" });
+router.get("/:id", async (req, res) => {
+   try {
+      const product = await Product.findById(req.params.id);
+      res.send(product);
+   } catch (error) {
+      res.status(404).send({ message: "Ürün bulunamadı" });
    }
-
-   const product = products.filter((product) => product.id == id);
-
-   if (product.length > 0) {
-      return res.send(product[0]);
-   }
-   return res.status(404).send({ message: "Ürün bulunamadı" });
 });
 
 // delete
