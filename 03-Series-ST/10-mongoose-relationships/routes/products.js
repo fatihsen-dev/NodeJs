@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
    try {
-      const products = await Product.find();
+      const products = await Product.find().populate("category", "name -_id");
       res.send(products);
    } catch (error) {
       console.log(error);
@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
       description: req.body.description,
       imageUrl: req.body.imageUrl,
       isActive: req.body.isActive,
+      category: req.body.category,
    });
 
    try {
@@ -49,6 +50,7 @@ router.put("/:id", async (req, res) => {
       product.description = req.body.description;
       product.imageUrl = req.body.imageUrl;
       product.isActive = req.body.isActive;
+      product.category = req.body.category;
       try {
          const updateProduct = await product.save();
          return res.send(updateProduct);

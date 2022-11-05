@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import Joi from "joi";
 
 const productSchema = mongoose.Schema({
@@ -11,6 +11,10 @@ const productSchema = mongoose.Schema({
       default: Date.now,
    },
    isActive: Boolean,
+   category: {
+      type: Schema.Types.ObjectId,
+      ref: "category",
+   },
 });
 
 export const productValidate = (product) => {
@@ -20,6 +24,7 @@ export const productValidate = (product) => {
       description: Joi.string().min(8).max(200).required(),
       imageUrl: Joi.string().min(2).max(200).required(),
       isActive: Joi.boolean().required(),
+      category: Joi.string(),
    });
    return schema.validate(product);
 };
