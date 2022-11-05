@@ -19,7 +19,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/users", usersRouter);
 
-// start and connect db
+// start and connect DB
 (async () => {
    try {
       await mongoose.connect(process.env.DB_STRING);
