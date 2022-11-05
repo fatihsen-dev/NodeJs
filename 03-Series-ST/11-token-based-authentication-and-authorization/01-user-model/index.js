@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import productsRouter from "./routes/products.js";
 import categoriesRouter from "./routes/categories.js";
+import usersRouter from "./routes/users.js";
 import homeRouter from "./routes/home.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/", homeRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/api/users", usersRouter);
 
 // start and connect db
 (async () => {
