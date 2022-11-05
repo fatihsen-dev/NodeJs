@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
    });
 
    try {
-      product.save();
+      await product.save();
       return res.send(product);
    } catch (error) {
       console.log(error);
