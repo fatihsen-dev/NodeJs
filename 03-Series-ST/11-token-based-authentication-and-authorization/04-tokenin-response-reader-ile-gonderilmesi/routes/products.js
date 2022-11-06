@@ -1,6 +1,7 @@
 import express from "express";
 import { Product, Comment, productValidate } from "../models/product.js";
 import { auth } from "../middleware/auth.js";
+import isAdmin from "../middleware/isAdmin.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", auth, async (req, res) => {
+router.post("/", [auth, isAdmin], async (req, res) => {
   const { error } = productValidate(req.body);
   if (error) {
     return res.status(400).send({ message: error.details[0].message });
