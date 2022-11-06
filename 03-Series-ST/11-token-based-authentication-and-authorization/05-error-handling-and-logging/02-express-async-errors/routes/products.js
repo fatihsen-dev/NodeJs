@@ -2,18 +2,14 @@ import express from "express";
 import { Product, Comment, productValidate } from "../models/product.js";
 import { auth } from "../middleware/auth.js";
 import isAdmin from "../middleware/isAdmin.js";
+import "express-async-errors";
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-  try {
-    throw new Error("Server Error");
-    const products = await Product.find()
-      .populate("category", "name -_id")
-      .select("-isActive -comments._id -comments.date");
-    res.send(products);
-  } catch (error) {
-    console.log(error);
-  }
+  const products = await Product.find()
+    .populate("category", "name -_id")
+    .select("-isActive -comments._id -comments.date");
+  res.send(products);
 });
 
 router.post("/", [auth, isAdmin], async (req, res) => {
