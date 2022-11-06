@@ -4,14 +4,15 @@ import { auth } from "../middleware/auth.js";
 import isAdmin from "../middleware/isAdmin.js";
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
+    throw new Error("Server hatası");
     const products = await Product.find()
       .populate("category", "name -_id")
       .select("-isActive -comments._id -comments.date");
     res.send(products);
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 

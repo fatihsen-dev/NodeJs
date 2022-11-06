@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import cors from "cors";
 import productsRouter from "./routes/products.js";
 import categoriesRouter from "./routes/categories.js";
@@ -13,21 +13,25 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+import error from "./middleware/error.js";
+
 // Router
 app.use("/", homeRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/users", usersRouter);
 
+app.use(error);
+
 // start and connect DB
 (async () => {
-   try {
-      await mongoose.connect(process.env.DB_STRING);
-      console.log("DB connected");
-   } catch (error) {
-      console.log(error);
-   }
+  try {
+    await mongoose.connect(process.env.DB_STRING);
+    console.log("DB connected");
+  } catch (error) {
+    console.log(error);
+  }
 })();
 app.listen(process.env.PORT || 5000, async () => {
-   console.log(`Listening on port ${process.env.PORT}`);
+  console.log(`Listening on port ${process.env.PORT}`);
 });
