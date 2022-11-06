@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import jwt from "jsonwebtoken";
 import Joi from "joi";
 
 const userSchema = mongoose.Schema(
@@ -35,6 +36,10 @@ export const loginValidate = (user) => {
       password: Joi.string().min(6).required(),
    });
    return schema.validate(user);
+};
+
+userSchema.methods.createAuthToken = (user) => {
+   return jwt.sign({ _id: user._id }, "jwtPricateKey");
 };
 
 export default mongoose.model("User", userSchema);

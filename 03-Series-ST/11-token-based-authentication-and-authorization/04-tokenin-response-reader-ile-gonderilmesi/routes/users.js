@@ -1,10 +1,10 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 const router = express.Router();
 import User, { userValidate, loginValidate } from "../models/user.js";
 
+// api/users/auth : GET
 router.get("/", async (req, res) => {
    try {
       var users = await User.find();
@@ -20,7 +20,8 @@ router.get("/", async (req, res) => {
    return res.send(users);
 });
 
-router.post("/", async (req, res) => {
+// api/users/create : POST
+router.post("/create", async (req, res) => {
    const { error } = userValidate(req.body);
 
    if (error) {
@@ -44,13 +45,17 @@ router.post("/", async (req, res) => {
 
    try {
       await user.save();
-      return res.send(user);
+
+      const token = user.createAuthToken(user);
+
+      return res.header("x-auth-token", token).send(user);
    } catch (error) {
       console.log(error);
       return res.status(400).send({ message: "Bir sorun oluştur" });
    }
 });
 
+// api/users/auth : POST
 router.post("/auth", async (req, res) => {
    const { error } = loginValidate(req.body);
 
@@ -70,9 +75,9 @@ router.post("/auth", async (req, res) => {
       return res.status(400).send({ message: "Hatalı email veya parola" });
    }
 
-   const token = jwt.sign({ _id: user._id }, "jwtPricateKey");
+   const token = user.createAuthToken(user);
 
-   return res.send(token);
+   return res.send({ token });
 });
 
 export default router;
