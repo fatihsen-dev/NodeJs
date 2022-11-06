@@ -1,5 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 import User, { userValidate, loginValidate } from "../models/user.js";
@@ -69,7 +70,9 @@ router.post("/auth", async (req, res) => {
       return res.status(400).send({ message: "Hatalı email veya parola" });
    }
 
-   return res.send({ message: "Giriş başarılı" });
+   const token = jwt.sign({ _id: user._id }, "jwtPricateKey");
+
+   return res.send(token);
 });
 
 export default router;
