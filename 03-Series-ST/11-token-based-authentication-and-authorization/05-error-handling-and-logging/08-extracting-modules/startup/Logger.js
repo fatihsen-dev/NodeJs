@@ -34,15 +34,3 @@ export const logger = createLogger({
     }),
   ],
 });
-
-/*
-process.on("uncaughtException", (error) => {
-  console.log(error.message);
-  logger.error(error.message);
-});
-
-process.on("unhandledrejection", (error) => {
-  console.log(error.message);
-  logger.error(error.message);
-});
-*/
