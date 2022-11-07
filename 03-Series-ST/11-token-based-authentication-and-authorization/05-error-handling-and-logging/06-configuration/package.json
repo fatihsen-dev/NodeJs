@@ -1,0 +1,27 @@
+{
+   "name": "08-api",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "type": "module",
+   "scripts": {
+      "dev": "NODE_ENV=development PORT=5000 nodemon index.js",
+      "prod": "NODE_ENV=production PORT=5000 nodemon index.js"
+   },
+   "keywords": [],
+   "author": "Fatih Sen <fatihydrm@outlook.com>",
+   "license": "MIT",
+   "dependencies": {
+      "bcrypt": "^5.1.0",
+      "config": "^3.3.8",
+      "cors": "^2.8.5",
+      "dotenv": "^16.0.3",
+      "express": "^4.18.2",
+      "express-async-errors": "^3.1.1",
+      "joi": "^17.7.0",
+      "jsonwebtoken": "^8.5.1",
+      "mongoose": "^6.7.1",
+      "winston": "^3.8.2",
+      "winston-mongodb": "^5.1.0"
+   }
+}
