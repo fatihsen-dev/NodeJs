@@ -12,7 +12,18 @@ export const logger = createLogger({
   ),
   transports: [
     new transports.Console(),
-    new transports.File({ filename: "logs.log", level: "error" }),
+    new transports.File({
+      filename: "logs/logs.log",
+      level: "error",
+      maxFiles: "3d",
+    }),
+    new transports.File({
+      filename: "logs/exceptions.log",
+      level: "error",
+      handleExceptions: true,
+      handleRejections: true,
+      maxFiles: "3d",
+    }),
     new transports.MongoDB({
       level: "error",
       db: "mongodb+srv://fatihsen:102030@cluster0.ryed3tf.mongodb.net/shopdb?retryWrites=true&w=majority",
@@ -23,3 +34,15 @@ export const logger = createLogger({
     }),
   ],
 });
+
+/*
+process.on("uncaughtException", (error) => {
+  console.log(error.message);
+  logger.error(error.message);
+});
+
+process.on("unhandledrejection", (error) => {
+  console.log(error.message);
+  logger.error(error.message);
+});
+*/
