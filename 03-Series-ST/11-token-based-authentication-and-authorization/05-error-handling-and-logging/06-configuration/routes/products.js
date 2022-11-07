@@ -6,7 +6,6 @@ import "express-async-errors";
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-  throw new Error("Hata oluştu");
   const products = await Product.find()
     .populate("category", "name -_id")
     .select("-isActive -comments._id -comments.date");
