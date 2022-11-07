@@ -32,6 +32,13 @@ app.use(error);
     console.log(error);
   }
 })();
+
+if (app.get("env")) {
+  console.log("Development");
+} else {
+  console.log("Production");
+}
+
 app.listen(process.env.PORT || 5000, async () => {
   console.log(`Listening on port ${process.env.PORT}`);
 });
