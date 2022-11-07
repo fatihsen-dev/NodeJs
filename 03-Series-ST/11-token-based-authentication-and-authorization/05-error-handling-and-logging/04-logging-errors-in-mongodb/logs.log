@@ -1,0 +1,5 @@
+{
+  message: 'mongodb bağlantısı kuruldu',
+  level: 'info',
+  timestamp: '11-07-2022 03:08:21'
+}
